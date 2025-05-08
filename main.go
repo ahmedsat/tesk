@@ -19,8 +19,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var debug bool = true
-
 //go:generate sqlc generate
 
 // Embed migration files
@@ -71,12 +69,6 @@ func setupDatabase() {
 
 	dataDir := filepath.Join(userHome, ".local", "share", "tesks")
 	cobra.CheckErr(os.MkdirAll(dataDir, os.ModePerm))
-
-	if debug {
-		dataDir = "data"
-		err := os.MkdirAll(dataDir, os.ModePerm)
-		cobra.CheckErr(err)
-	}
 
 	var err error
 	db, err = sql.Open("sqlite3", filepath.Join(dataDir, "tesks.db"))
@@ -331,19 +323,4 @@ func displayTasksTable(tasks []sqlc.Task) {
 
 	}
 	table.Render()
-}
-
-// formatTime formats a timestamp for human readability
-func formatTimeDuration(t time.Duration) string {
-
-	return t.String()
-
-}
-
-// formatBool returns a check mark or cross emoji for a boolean
-func formatBool(b bool) string {
-	if b {
-		return "✅"
-	}
-	return "❌"
 }
