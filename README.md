@@ -2,117 +2,94 @@
   <img src="tesks_logo.png" width="120" alt="Tesks Logo">
 </p>
 
-# 📝 Tesks
+# Tesks
 
-**Tesks** is a simple, fast, and user-friendly command-line tool for managing tasks, built in Go using SQLite for storage. Tasks can be created, listed, updated, searched, and archived through intuitive commands — all from your terminal.
-
----
-
-## ⚙️ Features
-
-- ✅ Create, list, update, delete, and search tasks
-- 📦 Archive and restore tasks
-- ✔️ Mark tasks as completed
-- 📊 Tabular task display with age-based coloring
-- 💾 Uses SQLite and `sqlc` for efficient query generation
-- 🔄 Auto-migration and task cleanup at startup
-- 📁 Stores data in `$HOME/.local/share/tesks`
+**Tesks** is a minimalist terminal-based task manager built in Go, using SQLite for storage and `sqlc` for fast, type-safe queries.  
+Designed for speed, clarity, and simplicity.
 
 ---
 
-## 🚀 Installation
+## 🚀 Features
+
+- Add and list tasks
+- Mark tasks as done, undo, or delete them
+- Archive and clean up old tasks
+- Full-text search
+- Age-based coloring in terminal table output
+
+---
+
+## 📦 Installation
 
 ```bash
-go install -tags "sqlite_fts5" github.com/ahmedsat/tesks@latest
+git clone https://github.com/ahmedsat/tesks.git
+cd tesks
+go build -tags "sqlite_fts5" -o tesks
 ````
 
 ---
 
-## 📚 Usage
+## 🛠️ Usage Examples
 
-All commands are available via:
+### Add a Task
 
 ```bash
-tesks [command]
+$ ./tesks create -t "Buy groceries" -d "Milk, eggs, and bread"
 ```
 
-### 🔧 Create a task
+### List Tasks
 
 ```bash
-tesks create --title "Buy milk" --description "Before it expires"
+$ ./tesks list
 ```
 
-### 📋 List tasks
+```
+| -----+----------------+------------------------+---------+
+| ID   | Title          | DESCRIPTION            | Age     |
++------+----------------+------------------------+---------+
+| 1    | Buy groceries  | Milk, eggs, and bread  | 2h ago  |
+| 2    | Finish report  |                        | 30m ago |
++------+----------------+------------------------+---------+
 
-```bash
-tesks list --page 1 --size 10
 ```
 
-### 🔍 Search tasks
+### Mark Task as Done
 
 ```bash
-tesks search --query "milk"
+$ ./tesks done 1
 ```
 
-### 🛠 Update a task
-
-```bash
-tesks update 1 --title "Buy groceries" --description "Milk, bread, eggs"
+```
+Task 1 marked as done.
 ```
 
-### 🗑 Archive a task
+### Search Tasks
 
 ```bash
-tesks delete 1
+$ ./tesks search -q groceries
 ```
 
-### ✔ Mark as done
-
-```bash
-tesks markdone 1
+```
++------+----------------+------------------------+---------+
+| ID   | Title          | DESCRIPTION            | Age     |
++------+----------------+------------------------+---------+
+| 1    | Buy groceries  | Milk, eggs, and bread  | 2h ago  |
++------+----------------+------------------------+---------+
 ```
 
-### ♻ Restore an archived/completed task
+### Archive Old Tasks
 
 ```bash
-tesks restore 1
+$ ./tesks archive
 ```
 
-### 📦 List archived or done tasks
-
-```bash
-tesks archived
-tesks done
+```
+TODO: add something here
 ```
 
 ---
 
-## 🧱 Database
-
-* Uses SQLite
-* SQL queries generated via [`sqlc`](https://github.com/kyleconroy/sqlc)
-* Migrations auto-run from embedded `/migrations` folder
-
----
-
-## 📦 Project Structure
-
-* `main.go`: Entry point and command registration
-* `sql/`: Auto-generated code by `sqlc`
-* `migrations/`: Embedded SQL migrations
-* Uses [`tablewriter`](https://github.com/olekukonko/tablewriter) for pretty output
-
----
-
-## 🛠 Development
-
-### Install dependencies
-
-```bash
-go mod tidy
-```
-
-### Generate SQL code
+## ⚙️ Regenerate SQL (dev only)
 
 ```bash
 go generate
