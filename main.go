@@ -296,6 +296,9 @@ func displayTasksTable(tasks []sqlc.Task) {
 	}
 
 	table := tablewriter.NewWriter(os.Stdout)
+
+	table.SetAutoWrapText(false)
+
 	table.SetHeader([]string{"ID", "Title", "Description", "Age"})
 	table.SetHeaderColor(
 		tablewriter.Colors{tablewriter.Bold, tablewriter.FgBlueColor},
