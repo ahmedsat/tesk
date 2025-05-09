@@ -14,8 +14,9 @@ import (
 	"time"
 
 	sqlc "github.com/ahmedsat/tesks/sql"
+	"github.com/jedib0t/go-pretty/v6/table"
+	"github.com/jedib0t/go-pretty/v6/text"
 	_ "github.com/mattn/go-sqlite3"
-	"github.com/olekukonko/tablewriter"
 	"github.com/spf13/cobra"
 )
 
@@ -85,19 +86,16 @@ func runMigrations() {
 		return strings.Compare(a.Name(), b.Name())
 	})
 	for _, f := range files {
-
 		b, err := migrations.ReadFile("migrations/" + f.Name())
 		cobra.CheckErr(err)
 		_, err = db.ExecContext(ctx, string(b))
 		cobra.CheckErr(err)
 	}
-
 }
 
 func cleanupTasks() {
 	cobra.CheckErr(queries.DeleteOldTasks(ctx))
 	cobra.CheckErr(queries.DeleteOlderTasks(ctx))
-
 }
 
 func exitErr(msg string) {
@@ -274,56 +272,45 @@ func displayTasksTable(tasks []sqlc.Task) {
 		return
 	}
 
-	lessThanDay := []tablewriter.Colors{
-		{tablewriter.FgGreenColor},
-		{tablewriter.FgGreenColor},
-		{tablewriter.FgGreenColor},
-		{tablewriter.FgGreenColor},
+	t := table.NewWriter()
+	t.SetTitle("Tesks: the task manager for your terminal")
+
+	style := t.Style()
+	style.Box = table.StyleBoxRounded
+
+	style.Color.Header = text.Colors{text.BgHiRed, text.FgBlack}
+	style.Color.Row = text.Colors{text.BgBlue, text.FgWhite}
+	style.Color.RowAlternate = text.Colors{text.BgCyan, text.FgBlack}
+
+	// make border colors transparent
+	style.Color.Border = text.Colors{}
+	style.Color.Footer = text.Colors{}
+	style.Color.Separator = text.Colors{}
+	style.Color.IndexColumn = text.Colors{}
+
+	style.Options.SeparateColumns = false
+
+	style.Title = table.TitleOptions{
+		Align:  text.AlignCenter,
+		Colors: text.Colors{text.FgHiWhite},
+		Format: text.FormatTitle,
 	}
 
-	lessThanWeek := []tablewriter.Colors{
-		{tablewriter.FgYellowColor},
-		{tablewriter.FgYellowColor},
-		{tablewriter.FgYellowColor},
-		{tablewriter.FgYellowColor},
-	}
-
-	moreThanWeek := []tablewriter.Colors{
-		{tablewriter.FgRedColor},
-		{tablewriter.FgRedColor},
-		{tablewriter.FgRedColor},
-		{tablewriter.FgRedColor},
-	}
-
-	table := tablewriter.NewWriter(os.Stdout)
-
-	table.SetAutoWrapText(false)
-
-	table.SetHeader([]string{"ID", "Title", "Description", "Age"})
-	table.SetHeaderColor(
-		tablewriter.Colors{tablewriter.Bold, tablewriter.FgBlueColor},
-		tablewriter.Colors{tablewriter.Bold, tablewriter.FgBlueColor},
-		tablewriter.Colors{tablewriter.Bold, tablewriter.FgBlueColor},
-		tablewriter.Colors{tablewriter.Bold, tablewriter.FgBlueColor},
-	)
+	t.AppendHeader(table.Row{"ID", "Title", "Description", "Age"})
 
 	for _, task := range tasks {
 
-		row := []string{
+		row := table.Row{
 			strconv.FormatInt(task.ID, 10),
 			task.Title,
 			task.Description.String,
 			time.Since(task.CreationDate).Truncate(time.Second).String(),
 		}
 
-		if task.CreationDate.After(time.Now().Add(-24 * time.Hour)) {
-			table.Rich(row, lessThanDay)
-		} else if task.CreationDate.After(time.Now().Add(-7 * 24 * time.Hour)) {
-			table.Rich(row, lessThanWeek)
-		} else {
-			table.Rich(row, moreThanWeek)
-		}
+		t.AppendRow(row)
 
 	}
-	table.Render()
+
+	t.SetOutputMirror(os.Stdout)
+	t.Render()
 }

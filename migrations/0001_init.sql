@@ -4,7 +4,7 @@ BEGIN;
 
 CREATE TABLE IF NOT EXISTS tasks (
   id                INTEGER PRIMARY KEY,
-  title             TEXT    NOT NULL UNIQUE,
+  title             TEXT    NOT NULL,
   description       TEXT,
   done              BOOLEAN NOT NULL DEFAULT FALSE CHECK(done IN (0,1)),
   creation_date     DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
