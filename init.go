@@ -3,7 +3,7 @@ package main
 import (
 	"embed"
 
-	"github.com/ahmedsat/tesks/cmd"
+	"github.com/ahmedsat/tesk/cmd"
 	_ "github.com/mattn/go-sqlite3"
 )
 

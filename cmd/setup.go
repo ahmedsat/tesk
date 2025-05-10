@@ -11,7 +11,7 @@ import (
 	"slices"
 	"strings"
 
-	sqlc "github.com/ahmedsat/tesks/sql"
+	sqlc "github.com/ahmedsat/tesk/sql"
 )
 
 var Migrations embed.FS
@@ -28,13 +28,13 @@ func setupDatabase() (err error) {
 		return errors.New("HOME environment variable not set")
 	}
 
-	dataDir := filepath.Join(userHome, ".local", "share", "tesks")
+	dataDir := filepath.Join(userHome, ".local", "share", "tesk")
 	err = os.MkdirAll(dataDir, os.ModePerm)
 	if err != nil {
 		return
 	}
 
-	db, err = sql.Open("sqlite3", filepath.Join(dataDir, "tesks.db"))
+	db, err = sql.Open("sqlite3", filepath.Join(dataDir, "tesk.db"))
 	if err != nil {
 		return
 	}

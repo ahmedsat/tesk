@@ -7,7 +7,7 @@ import (
 	"database/sql"
 	"fmt"
 
-	sqlc "github.com/ahmedsat/tesks/sql"
+	sqlc "github.com/ahmedsat/tesk/sql"
 	"github.com/spf13/cobra"
 )
 

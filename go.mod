@@ -1,4 +1,4 @@
-module github.com/ahmedsat/tesks
+module github.com/ahmedsat/tesk
 
 go 1.24.1
 

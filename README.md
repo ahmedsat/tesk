@@ -1,10 +1,10 @@
 <p align="center">
-  <img src="tesks_logo.png" width="120" alt="Tesks Logo">
+  <img src="tesk_logo.png" width="120" alt="tesk Logo">
 </p>
 
-# Tesks
+# tesk
 
-**Tesks** is a minimalist terminal-based task manager built in Go, using SQLite for storage and `sqlc` for fast, type-safe queries.  
+**tesk** is a minimalist terminal-based task manager built in Go, using SQLite for storage and `sqlc` for fast, type-safe queries.  
 Designed for speed, clarity, and simplicity.
 
 ---
@@ -22,9 +22,9 @@ Designed for speed, clarity, and simplicity.
 ## 📦 Installation
 
 ```bash
-git clone https://github.com/ahmedsat/tesks.git
-cd tesks
-go build -tags "sqlite_fts5" -o tesks
+git clone https://github.com/ahmedsat/tesk.git
+cd tesk
+go build -tags "sqlite_fts5" -o tesk
 ````
 
 ---
@@ -34,13 +34,13 @@ go build -tags "sqlite_fts5" -o tesks
 ### Add a Task
 
 ```bash
-$ ./tesks create -t "Buy groceries" -d "Milk, eggs, and bread"
+$ ./tesk create -t "Buy groceries" -d "Milk, eggs, and bread"
 ```
 
 ### List Tasks
 
 ```bash
-$ ./tesks list
+$ ./tesk list
 ```
 
 ```
@@ -56,7 +56,7 @@ $ ./tesks list
 ### Mark Task as Done
 
 ```bash
-$ ./tesks done 1
+$ ./tesk done 1
 ```
 
 ```
@@ -66,7 +66,7 @@ Task 1 marked as done.
 ### Search Tasks
 
 ```bash
-$ ./tesks search -q groceries
+$ ./tesk search -q groceries
 ```
 
 ```
@@ -80,7 +80,7 @@ $ ./tesks search -q groceries
 ### Archive Old Tasks
 
 ```bash
-$ ./tesks archive
+$ ./tesk archive
 ```
 
 ```

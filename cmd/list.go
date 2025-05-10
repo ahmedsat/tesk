@@ -4,7 +4,7 @@ Copyright © 2025 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
-	sqlc "github.com/ahmedsat/tesks/sql"
+	sqlc "github.com/ahmedsat/tesk/sql"
 	"github.com/spf13/cobra"
 )
 

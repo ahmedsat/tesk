@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"time"
 
-	sqlc "github.com/ahmedsat/tesks/sql"
+	sqlc "github.com/ahmedsat/tesk/sql"
 	"github.com/jedib0t/go-pretty/v6/table"
 	"github.com/jedib0t/go-pretty/v6/text"
 )
@@ -18,7 +18,7 @@ func displayTasksTable(tasks []sqlc.Task) {
 	}
 
 	t := table.NewWriter()
-	t.SetTitle("Tesks: the task manager for your terminal")
+	t.SetTitle("tesk: the task manager for your terminal")
 
 	style := t.Style()
 	style.Box = table.StyleBoxRounded
